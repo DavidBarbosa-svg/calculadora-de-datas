@@ -120,7 +120,7 @@
             }
 
             const dataInicial = new Date(dataInput);
-            dataInicial.setDate(dataInicial.getDate() + 1); // Ajusta para o fuso horário
+            dataInicial.setDate(dataInicial.getDate() + 1); // Ajuste para fuso horário
 
             const datas = [
                 { dias: 7, mensagem: '4ª tentativa de contato' },
@@ -130,7 +130,9 @@
 
             datas.forEach(item => {
                 const novaData = new Date(dataInicial);
-                novaData.setDate(novaData.getDate() + item.dias);
+                // A contagem começa a partir do mesmo dia.
+                // O 7º dia é 6 dias depois do dia inicial.
+                novaData.setDate(novaData.getDate() + (item.dias - 1));
 
                 const dia = String(novaData.getDate()).padStart(2, '0');
                 const mes = String(novaData.getMonth() + 1).padStart(2, '0');
@@ -139,7 +141,7 @@
                 const dataFormatada = `${dia}/${mes}/${ano}`;
 
                 const p = document.createElement('p');
-                p.innerHTML = `<strong>${item.dias} dias depois:</strong> ${dataFormatada} - ${item.mensagem}`;
+                p.innerHTML = `<strong>${item.dias}º dia:</strong> ${dataFormatada} - ${item.mensagem}`;
                 resultadoDiv.appendChild(p);
             });
         }
