@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Datas de Contato</title>
+    <style>
+        /* Estilos básicos para o corpo da página */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* Estilo para o contêiner principal */
+        .container {
+            background-color: #ffffff;
+            padding: 30px 50px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        /* Título */
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        /* Campo de data e rótulo */
+        label {
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+
+        input[type="date"] {
+            padding: 12px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Botão de cálculo */
+        button {
+            padding: 12px 25px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #1e3a8a;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1c2b6e;
+        }
+
+        /* Div de resultado */
+        .resultado {
+            margin-top: 30px;
+            font-size: 1.1em;
+            text-align: left;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .resultado p {
+            margin: 10px 0;
+            padding-left: 15px;
+            border-left: 3px solid #1e3a8a;
+        }
+
+        .resultado strong {
+            color: #1e3a8a;
+        }
+
+        /* Mensagem de erro */
+        .resultado p.error {
+            color: #e74c3c;
+            border-left-color: #e74c3c;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Datas de Contato</h1>
+        <label for="dataInput">Selecione uma data inicial:</label>
+        <input type="date" id="dataInput">
+        <button onclick="calcularDatas()">Calcular</button>
+        <div class="resultado" id="resultadoDiv"></div>
+    </div>
+
+    <script>
+        function calcularDatas() {
+            const dataInput = document.getElementById('dataInput').value;
+            const resultadoDiv = document.getElementById('resultadoDiv');
+            resultadoDiv.innerHTML = '';
+
+            if (!dataInput) {
+                resultadoDiv.innerHTML = '<p class="error">Por favor, selecione uma data.</p>';
+                return;
+            }
+
+            const dataInicial = new Date(dataInput);
+            dataInicial.setDate(dataInicial.getDate() + 1); // Ajusta para o fuso horário
+
+            const datas = [
+                { dias: 7, mensagem: '4ª tentativa de contato' },
+                { dias: 10, mensagem: '5ª tentativa de contato' },
+                { dias: 15, mensagem: '6ª tentativa de contato' }
+            ];
+
+            datas.forEach(item => {
+                const novaData = new Date(dataInicial);
+                novaData.setDate(novaData.getDate() + item.dias);
+
+                const dia = String(novaData.getDate()).padStart(2, '0');
+                const mes = String(novaData.getMonth() + 1).padStart(2, '0');
+                const ano = novaData.getFullYear();
+
+                const dataFormatada = `${dia}/${mes}/${ano}`;
+
+                const p = document.createElement('p');
+                p.innerHTML = `<strong>${item.dias} dias depois:</strong> ${dataFormatada} - ${item.mensagem}`;
+                resultadoDiv.appendChild(p);
+            });
+        }
+    </script>
+</body>
+</html>
